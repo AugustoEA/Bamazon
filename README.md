@@ -6,9 +6,9 @@ This is a "Amazon copycat" using SQL as database. The app take orders from custo
 
 ## Images
 
-![](C:\Users\augus\Desktop\bootcamp\Bamazon\images\Readme1.PNG)
+![](\images\Readme1.PNG)
 
-![](images\Readme2.PNG)
+![](.\images\Readme2.PNG)
 
 ![](images\Readme3.PNG)
 
