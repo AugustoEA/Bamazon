@@ -36,7 +36,32 @@ function buyProduct() {
       name: "quantity",
       message: "Please enter quantity",
     },
-    
+  ])
 
+  .then(function (answers) {
+    var itemRequested = answers.item;
+    var quantityRequested = answers.quantity;
+    orderItems(itemRequested, quantityRequested);
+    
+  });
+};
+
+function orderItems(item, quantity) {
+  connection.query("SELECT * FROM products WHERE ?" , [{item_id: item}], function (err,res) {
+    console.log(res);
+  
+    var update = res[0]
+    console.log(quantity);
+    console.log(update.stock_quantity);
+    if(err){console.log(err)};
+    
+    if(quantity <= update.stock_quantity){
+      var total = update.price * quantity;
+        console.log("Product available!");
+        console.log("Total for " + quantity + " " + update.product_name + " is " + total);
+      var newQuantity = update.stock_quantity - quantity;
+    }
+    
+  })
   
 }
