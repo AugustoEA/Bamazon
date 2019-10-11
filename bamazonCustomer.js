@@ -15,15 +15,7 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
 });
-
-// function display() {
-//   connection.query("SELECT * FROM products", function(err, res) {
-//     if (err) throw err;
-//     for (var i=0; i < res.length; i++) {
-//       console.log("Id: " + res[i].id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "Quantity: " + res[i].stock_quantity);
-//     };
-//   });
-// };
+y
 
 var displayItems = function(){
   var query = "Select * FROM products";
@@ -31,7 +23,6 @@ var displayItems = function(){
     if(err) throw err;
     var displayTable = new Table ({
       head: ["Item ID", "Product", "Department", "Price", "Quantity"],
-      colWidths: [10,15,15,10,14]
     });
     for(var i = 0; i < res.length; i++){
       displayTable.push(
@@ -39,7 +30,7 @@ var displayItems = function(){
         );
     }
     console.log(displayTable.toString());
-    purchaseItems();
+    buyProduct();
   });
 }
 displayItems();
@@ -80,3 +71,16 @@ function orderItems(item, quantity) {
         console.log("Product available!");
         console.log("Total for " + quantity + " " + update.product_name + " is " + total);
       var newQuantity = update.stock_quantity - quantity;
+
+      connection.query("UPDATE products SET ? WHERE ?" , [{stock_quantity: newQuantity}, {item_id: item}], function(err){
+        if(err){console.log(err)};
+        console.log("Thank you for buying with us!")
+        displayItems();
+      });
+    } 
+    else{
+      console.log("Oops! out of stock!");
+      displayItems();
+    };
+  });
+};
